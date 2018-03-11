@@ -1,6 +1,8 @@
 // Import MySQL connection.
 var connection = require("../config/connection.js");
 
+console.log("hello");
+
 // Helper function for SQL syntax.
 // Let's say we want to pass 3 values into the mySQL query.
 // In order to write the query, we need 3 question marks.
@@ -15,6 +17,7 @@ function printQuestionMarks(num) {
 
   return arr.toString();
 }
+
 
 // Helper function to convert object key/value pairs to SQL syntax
 function objToSql(ob) {
@@ -62,6 +65,8 @@ var orm = {
     queryString += ") ";
 
     console.log(queryString);
+    console.log(orm);
+    console.log("hi");
 
     connection.query(queryString, vals, function(err, result) {
       if (err) {
@@ -104,5 +109,5 @@ var orm = {
   }
 };
 
-// Export the orm object for the model (cat.js).
+// Export the orm object for the model (burger.js).
 module.exports = orm;
