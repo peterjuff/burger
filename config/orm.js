@@ -35,7 +35,10 @@ function objToSql(ob) {
       // e.g. {name: 'Double Cheeseburger'} => ["name='Double Cheeseburger'"]
       // e.g. {devoured: true} => ["devoured=true"]
       arr.push(key + "=" + value);
+
     }
+    console.log(objToSql);
+
   }
 
   // translate array of strings to a single comma-separated string
@@ -45,7 +48,7 @@ function objToSql(ob) {
 // Object for all our SQL statement functions.
 var orm = {
   selectAll: function(tableInput, cb) {
-    var queryString = "SELECT * FROM " + tableInput + ";";
+    var queryString = "SELECT * FROM burger;";
     console.log(queryString);
     connection.query(queryString, function(err, result) {
       if (err) {
@@ -55,7 +58,7 @@ var orm = {
     });
   },
   createOne: function(table, cols, vals, cb) {
-    var queryString = "INSERT INTO " + table;
+    var queryString = "INSERT INTO burger";
 
     queryString += " (";
     queryString += cols.toString();
@@ -68,17 +71,19 @@ var orm = {
     console.log(orm);
     console.log("hi");
 
-    connection.query(queryString, vals, function(err, result) {
+    connection.query(queryString, vals, 
+      [{burger_name: burger_name, devoured: false}],
+      function(err, res) {
       if (err) {
         throw err;
       }
 
-      cb(result);
+      cb(res);
     });
   },
   // An example of objColVals would be {name: veggie, devoured: true}
   updateOne: function(table, objColVals, condition, cb) {
-    var queryString = "UPDATE " + table;
+    var queryString = "UPDATE burger";
 
     queryString += " SET ";
     queryString += objToSql(objColVals);
@@ -86,28 +91,32 @@ var orm = {
     queryString += condition;
 
     console.log(queryString);
-    connection.query(queryString, function(err, result) {
+    connection.query(queryString, 
+      [{devoured: true}],
+      function(err, res) {
       if (err) {
         throw err;
       }
 
-      cb(result);
+      cb(res);
     });
   },
   deleteOne: function(table, condition, cb) {
-    var queryString = "DELETE FROM " + table;
+    var queryString = "DELETE FROM burger";
     queryString += " WHERE ";
     queryString += condition;
 
-    connection.query(queryString, function(err, result) {
+    connection.query(queryString, function(err, res) {
       if (err) {
         throw err;
       }
 
-      cb(result);
+      cb(res);
     });
   }
 };
+console.log(orm);
 
+//console.log(result);
 // Export the orm object for the model (burger.js).
 module.exports = orm;
