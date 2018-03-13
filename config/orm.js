@@ -71,7 +71,7 @@ var orm = {
     console.log(orm);
     console.log("hi");
 
-    connection.query(queryString, vals, 
+    connection.query(queryString, 
       [{burger_name: burger_name, devoured: false}],
       function(err, res) {
       if (err) {
